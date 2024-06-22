@@ -3,18 +3,18 @@ const jwt = require('jsonwebtoken');
 const User = require('../../models/User');
 const { generateActivationCode } = require('../../utils/generateActivationCode');
 const { sendActivationEmail } = require('../../utils/sendEmail');
-
+const { loginController } = require('./login');
 // Register a new user
 exports.registerUser = async (req, res) => {
   const { name, email, password } = req.body;
-
+ 
   try {
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ msg: 'User already exists' });
 
     // Generate activation code
     const activationCode = generateActivationCode();
-
+    console.log({ name, email, password, activationCode })
     // Create new user with activationCode
     user = new User({
       name,
@@ -59,24 +59,6 @@ exports.activateUser = async (req, res) => {
   }
 };
 
+
 // Login user
-exports.loginUser = async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ msg: 'Invalid credentials' });
-
-    if (!user.isActive) return res.status(400).json({ msg: 'Account is not activated' });
-
-    const isMatch = bcrypt.compareSync(password, user.password);
-    if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
-
-    const payload = { user: { id: user.id } };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-    res.json({ token });
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error' });
-  }
-};
+exports.loginUser = loginController;
