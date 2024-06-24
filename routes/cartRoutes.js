@@ -1,11 +1,16 @@
 const express = require('express');
-const { addToCart, removeFromCart, editCartItem ,getCart } = require('../controllers/cart/cartControllers');
+// const { removeFromCart, editCartItem ,getCart } = require('../controllers/cart/cartControllers');
+const { addToCart } = require('../controllers/cart/addtocart');
+const { editCartItem } = require('../controllers/cart/editcart');
+const { getCart } = require('../controllers/cart/getfromcart');
+const { removeFromCart } = require('../controllers/cart/removefromcart');
+
 const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
 router.post('/add', authMiddleware, addToCart);
-router.post('/remove', authMiddleware, removeFromCart);
+router.delete('/remove', authMiddleware, removeFromCart);
 router.post('/edit', authMiddleware, editCartItem);
 router.get('/getcart', authMiddleware, getCart);
 

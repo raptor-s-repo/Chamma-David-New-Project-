@@ -1,25 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const UserController = require('../controllers/users/userController');
 const auth = require('../middleware/auth');
+const {registerUser} = require('../controllers/users/registerUser');
+const {activateUser} = require('../controllers/users/activateUser');
+const {loginController} = require('../controllers/users/loginController');
 
-// Register a new user
-router.post('/register', UserController.registerUser);
+router.post('/register', registerUser);
+router.get('/activate/:activationCode', activateUser);
+router.post('/login', loginController);
 
-// Activate user
-router.get('/activate/:activationCode', UserController.activateUser);
-
-// Login user
-router.post('/login', UserController.loginUser);
-
-// Get user info (protected route)
-router.get('/', auth, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select('-password');
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error' });
-  }
-});
+// router.get('/', auth, async (req, res) => {
+//   try {
+//     const user = await User.findById(req.user.id).select('-password');
+//     res.json(user);
+//   } catch (err) {
+//     res.status(500).json({ msg: 'Server error' });
+//   }
+// });
 
 module.exports = router;

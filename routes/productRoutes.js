@@ -1,15 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const productController = require('../controllers/products/productControllers');
+const {getAllProducts} = require('../controllers/products/getAllProducts')
+const {getProductById} = require('../controllers/products/getProductById')
+const {getProductsByFilter}  = require('../controllers/products/getProductsByFilter')
 
-// Route to get all products
-router.get('/', productController.getAllProducts);
-router.post('/search', productController.getProductsBySearch);
-router.get('/filter', productController.getProductsByFilter); 
+router.get('/', getAllProducts);
 
-
-// Route to get a particular product by ID
-router.get('/:id', productController.getProductById);
+router.get('/filter', getProductsByFilter);
+router.get('/product/:id', getProductById);
 
 
 

@@ -1,6 +1,6 @@
-  const { default: mongoose } = require('mongoose');
+const { default: mongoose, now } = require('mongoose');
 const Cart = require('../../models/Cart');
-  const Product = require('../../models/Product');
+const Product = require('../../models/Product');
 
 // add to Cart
 exports.addToCart = async (req, res) => {
@@ -43,7 +43,7 @@ exports.addToCart = async (req, res) => {
   exports.removeFromCart = async (req, res) => {
     const { productId } = req.body;
     const userId = req.user.id; // Assuming the user ID is available in the request
-
+    console.log(req,"now")
     try {
       let cart = await Cart.findOne({ user: userId });
 
@@ -66,7 +66,7 @@ exports.addToCart = async (req, res) => {
     }
   };
 
-  // Edit Cart Item
+  
   exports.editCartItem = async (req, res) => {
     const { productId, quantity } = req.body;
     const userId = req.user.id; // Assuming the user ID is available in the request
@@ -94,7 +94,7 @@ exports.addToCart = async (req, res) => {
   };
 
 
-  // Get Cart
+ 
   exports.getCart = async (req, res) => {
     const userId = new mongoose.Types.ObjectId(req.user.id); // Assuming the user ID is available in the request
     console.log("getCart")
