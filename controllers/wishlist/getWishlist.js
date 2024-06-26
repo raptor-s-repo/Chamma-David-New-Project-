@@ -12,6 +12,7 @@ exports.getWishlist = async (req, res) => {
   
         if (!wishlist) {
             return res.status(404).json({ msg: 'Wishlist not found' });
+            res.status(200).json([]);
         }
   
         res.status(200).json(wishlist);

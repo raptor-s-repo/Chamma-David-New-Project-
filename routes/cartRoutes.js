@@ -12,7 +12,8 @@ const router = express.Router();
 router.post('/add', authMiddleware, addToCart);
 router.delete('/remove', authMiddleware, removeFromCart);
 router.post('/edit', authMiddleware, editCartItem);
-router.get('/getcart', authMiddleware, getCart);
+router.get('/', authMiddleware, getCart);
+
 
 
 
